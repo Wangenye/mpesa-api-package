@@ -1,6 +1,6 @@
 {
   "name": "mpesa-controller",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "mpesa endpoints ,daraja v2",
   "main": "mpesaController.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/Wangenye/mpesa-api-package.git"
   },
   "keywords": [
-    "wangenye"
+    "Mpesa moblie payments"
   ],
   "author": "Simon Mwangi",
   "license": "ISC",
