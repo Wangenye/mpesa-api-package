@@ -1,0 +1,28 @@
+{
+  "name": "mpesa-controller",
+  "version": "1.0.0",
+  "description": "mpesa endpoints ,daraja v2",
+  "main": "mpesaController.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wangenye/mpesa-api-package.git"
+  },
+  "keywords": [
+    "wangenye"
+  ],
+  "author": "Simon Mwangi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wangenye/mpesa-api-package/issues"
+  },
+  "homepage": "https://github.com/Wangenye/mpesa-api-package#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "node-datetime": "^2.1.2",
+    "unirest": "^0.6.0"
+  },
+  "devDependencies": {}
+}
