@@ -98,7 +98,7 @@ exports.RegisterUrl = (req, res, next) => {
 };
 
 //STK stkPush
-exports.stkPush = (req, res, next) => {
+exports.stkPush = (req, res, next,PartyA,PartyB) => {
     // console.log(newPassword());
     const token = req.token;
     // console.log("STK token :: ", token);
@@ -116,13 +116,13 @@ exports.stkPush = (req, res, next) => {
         })
         .send(
             JSON.stringify({
-                BusinessShortCode: 174379,
+                BusinessShortCode: process.env.BusinessShortCode,
                 Password: newPassword1(),
                 Timestamp: formatedDt,
                 TransactionType: "CustomerPayBillOnline",
                 Amount: 1,
-                PartyA: 254113877708,
-                PartyB: 174379,
+                PartyA: PartyA,
+                PartyB: PartyB,
                 PhoneNumber: 254113877708,
                 CallBackURL: "https://789b-105-163-1-67.ngrok.io/callbackurl",
                 AccountReference: "Wangenye CompanyXLTD",
