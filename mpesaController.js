@@ -1,4 +1,4 @@
-
+const express = require("express");
 require("dotenv").config();
 const unirest = require("unirest");
 const datetime = require("node-datetime");
@@ -22,10 +22,6 @@ exports.newPassword = () => {
     return base64EncodingPassword;
 };
 
-exports.Hello=(string)=>{
-    return string === 'Hello'
-}
-
 const newPassword1 = () => {
     const dt = datetime.create();
     const formatedDt = dt.format("YmdHMS");
@@ -36,6 +32,7 @@ const newPassword1 = () => {
 
     return base64EncodingPassword;
 };
+
 //Generate Token
 
 exports.MpesaToken = (req, res, next) => {
@@ -98,7 +95,7 @@ exports.RegisterUrl = (req, res, next) => {
 };
 
 //STK stkPush
-exports.stkPush = (req, res, next,PartyA,PartyB) => {
+exports.stkPush = (req, res, next) => {
     // console.log(newPassword());
     const token = req.token;
     // console.log("STK token :: ", token);
@@ -116,13 +113,13 @@ exports.stkPush = (req, res, next,PartyA,PartyB) => {
         })
         .send(
             JSON.stringify({
-                BusinessShortCode: process.env.BusinessShortCode,
-                Password: newPassword1(),
+                BusinessShortCode: 174379,
+                Password: newPassword(),
                 Timestamp: formatedDt,
                 TransactionType: "CustomerPayBillOnline",
                 Amount: 1,
-                PartyA: PartyA,
-                PartyB: PartyB,
+                PartyA: 254113877708,
+                PartyB: 174379,
                 PhoneNumber: 254113877708,
                 CallBackURL: "https://789b-105-163-1-67.ngrok.io/callbackurl",
                 AccountReference: "Wangenye CompanyXLTD",
@@ -154,7 +151,7 @@ exports.stimulateStkPay = (req, res, next) => {
         .send(
             JSON.stringify({
                 BusinessShortCode: 174379,
-                Password: newPassword1(),
+                Password: newPassword(),
                 Timestamp: formatedDt,
                 TransactionType: "CustomerPayBillOnline",
                 Amount: 1,
@@ -170,7 +167,7 @@ exports.stimulateStkPay = (req, res, next) => {
             if (error) {
                 console.log(error)
             }
-            res.status(200).json(body);
+            res.status(200).json(body.raw_body);
         });
 };
 
@@ -182,7 +179,7 @@ exports.checkStatus = (req, res, next) => {
     unirest("POST", url)
         .headers({
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${req.token}`,
         })
         .send(
             JSON.stringify({
@@ -206,3 +203,54 @@ exports.checkStatus = (req, res, next) => {
             // console.log(res.raw_body);
         });
 };
+
+
+
+exports.stkPusher=(partyA,partyB,phoneNumber,amount,token)=>{
+    this.partyA = partyA;
+    this.partyB = partyB;
+    this.phoneNumber = phoneNumber;
+    this.amount = amount;
+    this.token = token;
+
+    const stimulateStkPay1 = (req, res, next) => {
+        // const token = req.token;
+        const dt = datetime.create();
+        const formatedDt = dt.format("YmdHMS");
+        unirest(
+                "POST",
+                "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+            )
+            .headers({
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${req.token}`,
+            })
+            .send(
+                JSON.stringify({
+                    BusinessShortCode: process.env.BusinessShortCode,
+                    Password: newPassword1(),
+                    Timestamp: formatedDt,
+                    TransactionType: "CustomerPayBillOnline",
+                    Amount: amount,
+                    PartyA: partyA,
+                    PartyB: partyB,
+                    PhoneNumber: phoneNumber,
+                    CallBackURL: "https://789b-105-163-1-67.ngrok.io/api/mpesa/callbackurl",
+                    AccountReference: "CompanyXLTD",
+                    TransactionDesc: "Payment of X",
+                })
+            )
+            .end((error, body) => {
+                if (error) {
+                    console.log(error)
+                }
+                res.status(200).json(body);
+            });
+    };
+
+    return stimulateStkPay1
+
+}
+
+
+// module.exports =stkPusher
