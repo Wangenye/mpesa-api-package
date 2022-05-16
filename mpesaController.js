@@ -97,82 +97,82 @@ exports.RegisterUrl = (req, res, next) => {
     return urlRegister;
 };
 
-//STK stkPush
-exports.stkPush = (req, res, next) => {
-    // console.log(newPassword());
-    const token = req.token;
-    // console.log("STK token :: ", token);
-    const dt = datetime.create();
-    const formatedDt = dt.format("YmdHMS");
+// //STK stkPush
+// exports.stkPush = (req, res, next) => {
+//     // console.log(newPassword());
+//     const token = req.token;
+//     // console.log("STK token :: ", token);
+//     const dt = datetime.create();
+//     const formatedDt = dt.format("YmdHMS");
 
-    //   const stimulateUrl = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate";
-    unirest(
-            "POST",
-            "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-        )
-        .headers({
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        })
-        .send(
-            JSON.stringify({
-                BusinessShortCode: 174379,
-                Password: newPassword1(),
-                Timestamp: formatedDt,
-                TransactionType: "CustomerPayBillOnline",
-                Amount: 1,
-                PartyA: 254113877708,
-                PartyB: 174379,
-                PhoneNumber: 254113877708,
-                CallBackURL: "https://789b-105-163-1-67.ngrok.io/callbackurl",
-                AccountReference: "Wangenye CompanyXLTD",
-                TransactionDesc: "Payment of X",
-            })
-        )
-        .end((error, body) => {
-            if (error) {
-                console.log(error);
-            }
-            res.status(200).send(body);
-        });
+//     //   const stimulateUrl = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate";
+//     unirest(
+//             "POST",
+//             "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+//         )
+//         .headers({
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${token}`,
+//         })
+//         .send(
+//             JSON.stringify({
+//                 BusinessShortCode: 174379,
+//                 Password: newPassword1(),
+//                 Timestamp: formatedDt,
+//                 TransactionType: "CustomerPayBillOnline",
+//                 Amount: 1,
+//                 PartyA: 254113877708,
+//                 PartyB: 174379,
+//                 PhoneNumber: 254113877708,
+//                 CallBackURL: "https://789b-105-163-1-67.ngrok.io/callbackurl",
+//                 AccountReference: "Wangenye CompanyXLTD",
+//                 TransactionDesc: "Payment of X",
+//             })
+//         )
+//         .end((error, body) => {
+//             if (error) {
+//                 console.log(error);
+//             }
+//             res.status(200).send(body);
+//         });
 
-    // res.send(token)
-};
-///STimulate
-exports.stimulateStkPay = (req, res, next) => {
-    const token = req.token;
-    const dt = datetime.create();
-    const formatedDt = dt.format("YmdHMS");
-    unirest(
-            "POST",
-            "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-        )
-        .headers({
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        })
-        .send(
-            JSON.stringify({
-                BusinessShortCode: 174379,
-                Password: newPassword1(),
-                Timestamp: formatedDt,
-                TransactionType: "CustomerPayBillOnline",
-                Amount: 1,
-                PartyA: 254113877708,
-                PartyB: 174379,
-                PhoneNumber: 254113877708,
-                CallBackURL: "https://789b-105-163-1-67.ngrok.io/api/mpesa/callbackurl",
-                AccountReference: "CompanyXLTD",
-                TransactionDesc: "Payment of X",
-            })
-        )
-        .end((error, body) => {
-            if (error) {
-                console.log(error)
-            }
-            res.status(200).json(body);
-        });
-};
+//     // res.send(token)
+// };
+// ///STimulate
+// exports.stimulateStkPay = (req, res, next) => {
+//     const token = req.token;
+//     const dt = datetime.create();
+//     const formatedDt = dt.format("YmdHMS");
+//     unirest(
+//             "POST",
+//             "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+//         )
+//         .headers({
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${token}`,
+//         })
+//         .send(
+//             JSON.stringify({
+//                 BusinessShortCode: 174379,
+//                 Password: newPassword1(),
+//                 Timestamp: formatedDt,
+//                 TransactionType: "CustomerPayBillOnline",
+//                 Amount: 1,
+//                 PartyA: 254113877708,
+//                 PartyB: 174379,
+//                 PhoneNumber: 254113877708,
+//                 CallBackURL: "https://789b-105-163-1-67.ngrok.io/api/mpesa/callbackurl",
+//                 AccountReference: "CompanyXLTD",
+//                 TransactionDesc: "Payment of X",
+//             })
+//         )
+//         .end((error, body) => {
+//             if (error) {
+//                 console.log(error)
+//             }
+//             res.status(200).json(body);
+//         });
+// };
 
 exports.checkStatus = (req, res, next) => {
     const token = req.token;
@@ -206,3 +206,54 @@ exports.checkStatus = (req, res, next) => {
             // console.log(res.raw_body);
         });
 };
+
+
+
+
+
+
+exports.stkPush=(partyA,partyB,phoneNumber,amount,token)=>{
+    this.partyA = partyA;
+    this.partyB = partyB;
+    this.phoneNumber = phoneNumber;
+    this.amount = amount;
+    this.token = token;
+
+    const stimulateStkPay1 = (req, res, next) => {
+        // const token = req.token;
+        const dt = datetime.create();
+        const formatedDt = dt.format("YmdHMS");
+        unirest(
+                "POST",
+                "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+            )
+            .headers({
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${req.token}`,
+            })
+            .send(
+                JSON.stringify({
+                    BusinessShortCode: process.env.BusinessShortCode,
+                    Password: newPassword1(),
+                    Timestamp: formatedDt,
+                    TransactionType: "CustomerPayBillOnline",
+                    Amount: amount,
+                    PartyA: partyA,
+                    PartyB: partyB,
+                    PhoneNumber: phoneNumber,
+                    CallBackURL: "https://789b-105-163-1-67.ngrok.io/api/mpesa/callbackurl",
+                    AccountReference: "CompanyXLTD",
+                    TransactionDesc: "Payment of X",
+                })
+            )
+            .end((error, body) => {
+                if (error) {
+                    console.log(error)
+                }
+                res.status(200).json(body);
+            });
+    };
+
+    return stimulateStkPay1
+
+}
