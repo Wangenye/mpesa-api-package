@@ -1,6 +1,6 @@
 {
   "name": "mpesa-controller",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "mpesa endpoints ,daraja v2",
   "main": "mpesaController.js",
   "scripts": {

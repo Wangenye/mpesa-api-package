@@ -7,9 +7,9 @@ Its a simple package to help consume the mpesa daraja api v2 to achive mpesa pay
 
 
 <ol>
-To use it simply follow the instructions below
+<h1>The following  will guide you on how to use the package</h1>
 <li>
-npm install mpesa-controller
+<h3>npm install mpesa-controller</h3>
 </li>
 <li>
 <h3>In your routes file import the package e.g</h3> <em>
