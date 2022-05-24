@@ -1,4 +1,4 @@
-
+const express = require("express");
 require("dotenv").config();
 const unirest = require("unirest");
 const datetime = require("node-datetime");
@@ -22,10 +22,6 @@ exports.newPassword = () => {
     return base64EncodingPassword;
 };
 
-exports.Hello=(string)=>{
-    return string === 'Hello'
-}
-
 const newPassword1 = () => {
     const dt = datetime.create();
     const formatedDt = dt.format("YmdHMS");
@@ -36,6 +32,7 @@ const newPassword1 = () => {
 
     return base64EncodingPassword;
 };
+
 //Generate Token
 
 exports.MpesaToken = (req, res, next) => {
@@ -105,6 +102,7 @@ exports.RegisterUrl = (req, res, next) => {
 //     const dt = datetime.create();
 //     const formatedDt = dt.format("YmdHMS");
 
+<<<<<<< HEAD
 //     //   const stimulateUrl = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate";
 //     unirest(
 //             "POST",
@@ -173,6 +171,76 @@ exports.RegisterUrl = (req, res, next) => {
 //             res.status(200).json(body);
 //         });
 // };
+=======
+    //   const stimulateUrl = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate";
+    unirest(
+            "POST",
+            "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+        )
+        .headers({
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        })
+        .send(
+            JSON.stringify({
+                BusinessShortCode: 174379,
+                Password: newPassword(),
+                Timestamp: formatedDt,
+                TransactionType: "CustomerPayBillOnline",
+                Amount: 1,
+                PartyA: 254113877708,
+                PartyB: 174379,
+                PhoneNumber: 254113877708,
+                CallBackURL: "https://789b-105-163-1-67.ngrok.io/callbackurl",
+                AccountReference: "Wangenye CompanyXLTD",
+                TransactionDesc: "Payment of X",
+            })
+        )
+        .end((error, body) => {
+            if (error) {
+                console.log(error);
+            }
+            res.status(200).send(body);
+        });
+
+    // res.send(token)
+};
+///STimulate
+exports.stimulateStkPay = (req, res, next) => {
+    const token = req.token;
+    const dt = datetime.create();
+    const formatedDt = dt.format("YmdHMS");
+    unirest(
+            "POST",
+            "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+        )
+        .headers({
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        })
+        .send(
+            JSON.stringify({
+                BusinessShortCode: 174379,
+                Password: newPassword(),
+                Timestamp: formatedDt,
+                TransactionType: "CustomerPayBillOnline",
+                Amount: 1,
+                PartyA: 254113877708,
+                PartyB: 174379,
+                PhoneNumber: 254113877708,
+                CallBackURL: "https://789b-105-163-1-67.ngrok.io/api/mpesa/callbackurl",
+                AccountReference: "CompanyXLTD",
+                TransactionDesc: "Payment of X",
+            })
+        )
+        .end((error, body) => {
+            if (error) {
+                console.log(error)
+            }
+            res.status(200).json(body.raw_body);
+        });
+};
+>>>>>>> a53776458e5a739e0d627e2ce85be42dc05b6b41
 
 exports.checkStatus = (req, res, next) => {
     const token = req.token;
@@ -182,7 +250,7 @@ exports.checkStatus = (req, res, next) => {
     unirest("POST", url)
         .headers({
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${req.token}`,
         })
         .send(
             JSON.stringify({
@@ -209,10 +277,14 @@ exports.checkStatus = (req, res, next) => {
 
 
 
+<<<<<<< HEAD
 
 
 
 exports.stkPush=(partyA,partyB,phoneNumber,amount,token)=>{
+=======
+exports.stkPusher=(partyA,partyB,phoneNumber,amount,token)=>{
+>>>>>>> a53776458e5a739e0d627e2ce85be42dc05b6b41
     this.partyA = partyA;
     this.partyB = partyB;
     this.phoneNumber = phoneNumber;
@@ -257,3 +329,9 @@ exports.stkPush=(partyA,partyB,phoneNumber,amount,token)=>{
     return stimulateStkPay1
 
 }
+<<<<<<< HEAD
+=======
+
+
+// module.exports =stkPusher
+>>>>>>> a53776458e5a739e0d627e2ce85be42dc05b6b41
